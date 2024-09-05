@@ -1,4 +1,5 @@
 import base_palabras
+import matplotlib.pyplot as plt
 
 bp = base_palabras
 
@@ -11,7 +12,7 @@ def entra_texto(texto):
         Esto último servirá para contar las palabras
     """
     # para introducir el texto, la línea siguiente:
-    #texto = input("Texto:   ")
+    # texto = input("Texto:   ")
 
     #    texto = texto
 
@@ -330,23 +331,32 @@ def cuantificador_basico_tipos_de_palabras(lista_compleja_palabras):
         else:
             contador_otros_casos = contador_otros_casos + 1
 
-
     return contador_monosilabos, contador_monosilabos_tonicos, contador_monosilabos_atonos, contador_bisilabos_atonos, contador_agudas, contador_graves, contador_esdrujulas, contador_otros_casos, letras_finales_palabras_graves
 
+
 def contar_letras_finales(letras_finales_palabras_graves):
-
-    contador_vocales_palabras_graves = 0
-
-    contador_consonante_s_palabras_graves = 0
-
-    contador_consonante_n_palabras_graves = 0
-
-    contador_consonantes_otras_palabras_graves = 0
     print("Cantidad de letras finales: ", len(letras_finales_palabras_graves))
 
-    vocales_al_final = (letras_finales_palabras_graves.count("a")) + (letras_finales_palabras_graves.count("e")) + (letras_finales_palabras_graves.count("i")) + (letras_finales_palabras_graves.count("o")) + (letras_finales_palabras_graves.count("u"))
+    vocales_al_final = (letras_finales_palabras_graves.count("a")) + (letras_finales_palabras_graves.count("e")) + (
+        letras_finales_palabras_graves.count("i")) + (letras_finales_palabras_graves.count("o")) + (
+                           letras_finales_palabras_graves.count("u"))
     consonantes_n_s_al_final = (letras_finales_palabras_graves.count("n")) + (letras_finales_palabras_graves.count("s"))
     print("===???====")
     print("Graves terminadas en vocal: ", vocales_al_final)
     print("Graves terminadas en n o s: ", consonantes_n_s_al_final)
-    print("Graves terminadas en otras consonantes : ", (len(letras_finales_palabras_graves)) - (vocales_al_final + consonantes_n_s_al_final) )
+    print("Graves terminadas en otras consonantes : ",
+          (len(letras_finales_palabras_graves)) - (vocales_al_final + consonantes_n_s_al_final))
+
+
+def graficos_para_ortografia_leyes_generales(contador_monosilabos, contador_monosilabos_tonicos,
+                                             contador_monosilabos_atonos, contador_bisilabos_atonos, contador_agudas,
+                                             contador_graves, contador_esdrujulas, contador_otros_casos,
+                                             letras_finales_palabras_graves):
+    fig, ax = plt.subplots()
+    leyendas = ["G", "A", "E", "ba", "ma", "mt"]
+    ax.pie(
+        [contador_graves, contador_agudas, contador_esdrujulas, contador_bisilabos_atonos, contador_monosilabos_atonos,
+         contador_monosilabos_tonicos])
+    ax.legend(leyendas, loc='upper center', ncol=7)
+    ax.set_aspect(1)
+    plt.show()

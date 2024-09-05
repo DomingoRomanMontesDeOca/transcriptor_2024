@@ -1,6 +1,8 @@
 import funciones_2024
-
+import matplotlib.pyplot as plt
 import base_palabras
+
+
 
 bp = base_palabras
 
@@ -48,3 +50,5 @@ print(contador_monosilabos + contador_bisilabos_atonos + contador_agudas + conta
 print(numero_de_palabras)
 
 fun.contar_letras_finales(letras_finales_palabras_graves)
+
+fun.graficos_para_ortografia_leyes_generales(contador_monosilabos, contador_monosilabos_tonicos, contador_monosilabos_atonos, contador_bisilabos_atonos, contador_agudas, contador_graves, contador_esdrujulas, contador_otros_casos, letras_finales_palabras_graves)
