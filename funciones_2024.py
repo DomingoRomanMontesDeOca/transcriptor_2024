@@ -360,3 +360,11 @@ def graficos_para_ortografia_leyes_generales(contador_monosilabos, contador_mono
     ax.legend(leyendas, loc='upper center', ncol=7)
     ax.set_aspect(1)
     plt.show()
+
+    fig, ax = plt.subplots()
+    leyendas = ["G", "A", "E"]
+    ax.pie(
+        [contador_graves, contador_agudas, contador_esdrujulas])
+    ax.legend(leyendas, loc='upper center', ncol=7)
+    ax.set_aspect(1)
+    plt.show()
