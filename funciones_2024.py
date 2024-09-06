@@ -1,6 +1,5 @@
 import base_palabras
 import matplotlib.pyplot as plt
-
 bp = base_palabras
 
 
@@ -13,8 +12,6 @@ def entra_texto(texto):
     """
     # para introducir el texto, la línea siguiente:
     # texto = input("Texto:   ")
-
-    #    texto = texto
 
     texto_en_minusculas = texto.lower()
 
@@ -348,6 +345,22 @@ def contar_letras_finales(letras_finales_palabras_graves):
           (len(letras_finales_palabras_graves)) - (vocales_al_final + consonantes_n_s_al_final))
 
 
+    fig, ax = plt.subplots()
+    leyendas = ["Voc + n + s", "Otras cons"]
+    ax.pie(
+        [(vocales_al_final + consonantes_n_s_al_final), (len(letras_finales_palabras_graves)) - (vocales_al_final + consonantes_n_s_al_final)])
+    ax.legend(leyendas, loc='upper center', ncol=7)
+    ax.set_aspect(1)
+    plt.show()
+
+# Gráfico de barras
+    y = [vocales_al_final, consonantes_n_s_al_final]
+    x = ["Vocales", "Ene o ese"]
+    fig, ax = plt.subplots()
+    ax.bar(x = x,  height =y)
+    plt.show()
+
+
 def graficos_para_ortografia_leyes_generales(contador_monosilabos, contador_monosilabos_tonicos,
                                              contador_monosilabos_atonos, contador_bisilabos_atonos, contador_agudas,
                                              contador_graves, contador_esdrujulas, contador_otros_casos,
@@ -368,3 +381,4 @@ def graficos_para_ortografia_leyes_generales(contador_monosilabos, contador_mono
     ax.legend(leyendas, loc='upper center', ncol=7)
     ax.set_aspect(1)
     plt.show()
+
