@@ -1,5 +1,7 @@
 import base_palabras
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
+import plotly.express as px
+import pandas as pd
 bp = base_palabras
 
 
@@ -328,57 +330,118 @@ def cuantificador_basico_tipos_de_palabras(lista_compleja_palabras):
         else:
             contador_otros_casos = contador_otros_casos + 1
 
-    return contador_monosilabos, contador_monosilabos_tonicos, contador_monosilabos_atonos, contador_bisilabos_atonos, contador_agudas, contador_graves, contador_esdrujulas, contador_otros_casos, letras_finales_palabras_graves
+    return contador_monosilabos, contador_monosilabos_tonicos, contador_monosilabos_atonos, contador_bisilabos_atonos, \
+        contador_agudas, contador_graves, contador_esdrujulas, contador_otros_casos, letras_finales_palabras_graves
 
 
 def contar_letras_finales(letras_finales_palabras_graves):
-    print("Cantidad de letras finales: ", len(letras_finales_palabras_graves))
 
     vocales_al_final = (letras_finales_palabras_graves.count("a")) + (letras_finales_palabras_graves.count("e")) + (
         letras_finales_palabras_graves.count("i")) + (letras_finales_palabras_graves.count("o")) + (
                            letras_finales_palabras_graves.count("u"))
+
     consonantes_n_s_al_final = (letras_finales_palabras_graves.count("n")) + (letras_finales_palabras_graves.count("s"))
-    print("===???====")
-    print("Graves terminadas en vocal: ", vocales_al_final)
-    print("Graves terminadas en n o s: ", consonantes_n_s_al_final)
-    print("Graves terminadas en otras consonantes : ",
-          (len(letras_finales_palabras_graves)) - (vocales_al_final + consonantes_n_s_al_final))
+    otras_consonantes_finales =  (len(letras_finales_palabras_graves)) - (vocales_al_final + consonantes_n_s_al_final)
+
+    print("Letras finales en las palabras graves:")
+    print("      Graves terminadas en vocal: ", vocales_al_final)
+    print("      Graves terminadas en n o s: ", consonantes_n_s_al_final)
+    print("      Graves terminadas en otras consonantes : ", otras_consonantes_finales)
+
+    return vocales_al_final, consonantes_n_s_al_final, otras_consonantes_finales
 
 
-    fig, ax = plt.subplots()
-    leyendas = ["Voc + n + s", "Otras cons"]
-    ax.pie(
-        [(vocales_al_final + consonantes_n_s_al_final), (len(letras_finales_palabras_graves)) - (vocales_al_final + consonantes_n_s_al_final)])
-    ax.legend(leyendas, loc='upper center', ncol=7)
-    ax.set_aspect(1)
-    plt.show()
+def reporte_palabras(contador_monosilabos, contador_monosilabos_tonicos, contador_monosilabos_atonos,\
+                     contador_bisilabos_atonos, contador_agudas, contador_graves, contador_esdrujulas):
 
-# Gráfico de barras
-    y = [vocales_al_final, consonantes_n_s_al_final]
-    x = ["Vocales", "Ene o ese"]
-    fig, ax = plt.subplots()
-    ax.bar(x = x,  height =y)
-    plt.show()
+    print("Número total de palabras:", contador_monosilabos  + \
+                     contador_bisilabos_atonos + contador_agudas + contador_graves + contador_esdrujulas)
+    print("------")
+    print("Número de monosílabos:", contador_monosilabos)
+    print("------")
+    print("Número de bisílabos átonos", contador_bisilabos_atonos)
+    print("------")
+    print("Número de palabras agudas, graves y esdrújulas:", contador_graves+contador_esdrujulas+contador_agudas)
+    print("------")
+    print("Monosílabos:")
+    print("     Número de monosílabos tónicos:", contador_monosilabos_tonicos)
+    print("     Número de monosílabos átonos:" , contador_monosilabos_atonos)
+    print("------")
+    print("Agudas, graves y esdrújulas:")
+    print("     Número de palabras agudas:", contador_agudas)
+    print("     Número de palabras graves:", contador_graves)
+    print("     Número de palabras esdrújulas:", contador_esdrujulas)
+
+def diccionarios_con_valores_generales(contador_monosilabos_tonicos, contador_monosilabos_atonos,
+                                             contador_bisilabos_atonos, contador_agudas, contador_graves, contador_esdrujulas,
+                                             vocales_al_final, consonantes_n_s_al_final,otras_consonantes_finales):
+
+    dict_resultados_totales = {"Monosilabos tónicos": contador_monosilabos_tonicos,
+                               "Monosílabos átonos": contador_monosilabos_atonos,
+                               "Bisílabos átonos": contador_bisilabos_atonos,
+                               "Palabras agudas": contador_agudas,
+                               "Palabras graves": contador_graves,
+                               "Palabras esdrújulas": contador_esdrujulas}
+
+    dict_finales_palabras_graves = {"Vocales N o S": vocales_al_final + consonantes_n_s_al_final,
+                                    "Otras consonantes": otras_consonantes_finales}
+
+    categoria_letras_finales = ["Vocales N o S", "Otras consonantes"]
+    valores_letras_finales = [vocales_al_final + consonantes_n_s_al_final, otras_consonantes_finales]
+
+    categorias = ["Monosilabos tónicos", "Monosílabos átonos", "Bisílabos átonos","Palabras agudas","Palabras graves",
+                  "Palabras esdrújulas" ]
+    valores = [contador_monosilabos_tonicos, contador_monosilabos_atonos, contador_bisilabos_atonos, contador_agudas,
+               contador_graves, contador_esdrujulas]
+    return (categorias, valores, categoria_letras_finales, valores_letras_finales)
 
 
-def graficos_para_ortografia_leyes_generales(contador_monosilabos, contador_monosilabos_tonicos,
-                                             contador_monosilabos_atonos, contador_bisilabos_atonos, contador_agudas,
-                                             contador_graves, contador_esdrujulas, contador_otros_casos,
-                                             letras_finales_palabras_graves):
-    fig, ax = plt.subplots()
-    leyendas = ["G", "A", "E", "ba", "ma", "mt"]
-    ax.pie(
-        [contador_graves, contador_agudas, contador_esdrujulas, contador_bisilabos_atonos, contador_monosilabos_atonos,
-         contador_monosilabos_tonicos])
-    ax.legend(leyendas, loc='upper center', ncol=7)
-    ax.set_aspect(1)
-    plt.show()
 
-    fig, ax = plt.subplots()
-    leyendas = ["G", "A", "E"]
-    ax.pie(
-        [contador_graves, contador_agudas, contador_esdrujulas])
-    ax.legend(leyendas, loc='upper center', ncol=7)
-    ax.set_aspect(1)
-    plt.show()
+def graficos_para_ortografia_leyes_generales(categorias, valores, categoria_letras_finales, valores_letras_finales):
+
+    df = pd.DataFrame(dict(
+        grupo1=categorias,
+        grupo2=valores
+    ))
+    fig = px.bar(df, x='grupo1', y='grupo2')
+    fig.show()
+
+
+    df2 = pd.DataFrame(dict(
+        categ = categoria_letras_finales,
+        valor = valores_letras_finales
+    ))
+    fig = px.bar(df2, x='categ', y='valor')
+    fig.show()
+
+
+def graficos_resultados_cuenta_tipos_palabras(contador_monosilabos, contador_monosilabos_tonicos,
+                                              contador_monosilabos_atonos, contador_bisilabos_atonos,
+                                              contador_agudas, contador_graves, contador_esdrujulas,
+                                              contador_otros_casos, letras_finales_palabras_graves):
+
+    categoria_de_palabras = ["Monosílabos", "Bisílabos átonos", "Agudas", "Graves", "Esdrújulas"]
+    ene_por_categ_de_palabras = [contador_monosilabos, contador_bisilabos_atonos, contador_agudas, contador_graves,
+                                 contador_esdrujulas]
+
+    df3 = pd.DataFrame(dict(
+        tipos = categoria_de_palabras,
+        valores = ene_por_categ_de_palabras
+    ))
+    fig = px.bar(df3, x = 'tipos', y = 'valores')
+    fig.show()
+
+
+    # monosílabos
+
+    monos = ["Tónicos", "Átonos", "Bisílabos átonos"]
+    val_mono = [contador_monosilabos_tonicos, contador_monosilabos_atonos, contador_bisilabos_atonos]
+
+    df4 = pd.DataFrame(dict(
+        tip = monos,
+        valtip = val_mono
+    ))
+    fig = px.bar(df4, x = 'tip', y = 'valtip', title = "Palabras menores", labels = {'tip': "Tipos de palabras",
+                                                                                     'valtip': "Número de ocurrencias"})
+    fig.show()
 

@@ -1,10 +1,4 @@
 import funciones_2024
-import matplotlib.pyplot as plt
-import base_palabras
-
-
-
-bp = base_palabras
 
 fun = funciones_2024
 
@@ -21,34 +15,25 @@ transcripcion_1c = fun.transcriptor(texto_en_minusculas)
 
 lista_compleja_palabras = fun.identificador_silaba_tonica(lista_palabras)
 
-contador_monosilabos, contador_monosilabos_tonicos, contador_monosilabos_atonos, contador_bisilabos_atonos, contador_agudas, contador_graves, contador_esdrujulas, contador_otros_casos, letras_finales_palabras_graves = fun.cuantificador_basico_tipos_de_palabras(lista_compleja_palabras)
+contador_monosilabos, contador_monosilabos_tonicos, contador_monosilabos_atonos, contador_bisilabos_atonos, \
+    contador_agudas, contador_graves, contador_esdrujulas, contador_otros_casos, letras_finales_palabras_graves \
+    = fun.cuantificador_basico_tipos_de_palabras(lista_compleja_palabras)
+
+fun.reporte_palabras(contador_monosilabos, contador_monosilabos_tonicos, contador_monosilabos_atonos,\
+                     contador_bisilabos_atonos, contador_agudas, contador_graves, contador_esdrujulas)
+
+vocales_al_final, consonantes_n_s_al_final, otras_consonantes_finales = fun.contar_letras_finales(letras_finales_palabras_graves)
+
+
+categorias, valores, categoria_letras_finales, valores_letras_finales = fun.diccionarios_con_valores_generales(contador_monosilabos_tonicos, contador_monosilabos_atonos,
+                                             contador_bisilabos_atonos, contador_agudas, contador_graves, contador_esdrujulas,
+                                             vocales_al_final, consonantes_n_s_al_final,otras_consonantes_finales)
 
 
 
-print("Entrada: \n", texto)
-print(".....................")
-print(lista_palabras)
-print(".....................")
-print("En minúsculas: \n", texto_en_minusculas)
-print(".....................")
-print("Transcripción 1c :\n", transcripcion_1c)
-print(".....................")
-print(lista_compleja_palabras)
-print(".....................")
-print("El texto tiene ", numero_de_palabras, " palabras")
-print("El texto tiene ", contador_monosilabos, " monosílabos")
-print("El texto tiene ", contador_monosilabos_tonicos, " monosílabos tónicos")
-print("El texto tiene ", contador_monosilabos_atonos, " monosílabos átonos")
-print("El texto tiene ", contador_bisilabos_atonos, " bisílabos átonos")
-print("El texto tiene ", contador_agudas, " palabras agudas")
-print("El texto tiene ", contador_graves, " palabras graves")
-print("El texto tiene ", contador_esdrujulas, " palabras esdrújulas")
-print(letras_finales_palabras_graves)
-print(len(letras_finales_palabras_graves))
+fun.graficos_para_ortografia_leyes_generales(categorias, valores, categoria_letras_finales, valores_letras_finales)
 
-print(contador_monosilabos + contador_bisilabos_atonos + contador_agudas + contador_graves + contador_esdrujulas)
-print(numero_de_palabras)
-
-fun.contar_letras_finales(letras_finales_palabras_graves)
-
-fun.graficos_para_ortografia_leyes_generales(contador_monosilabos, contador_monosilabos_tonicos, contador_monosilabos_atonos, contador_bisilabos_atonos, contador_agudas, contador_graves, contador_esdrujulas, contador_otros_casos, letras_finales_palabras_graves)
+fun.graficos_resultados_cuenta_tipos_palabras(contador_monosilabos, contador_monosilabos_tonicos,
+                                              contador_monosilabos_atonos, contador_bisilabos_atonos,
+                                              contador_agudas, contador_graves, contador_esdrujulas,
+                                              contador_otros_casos, letras_finales_palabras_graves)
