@@ -1,9 +1,8 @@
 import base_palabras
-#import matplotlib.pyplot as plt
 import plotly.express as px
+
 import pandas as pd
 bp = base_palabras
-
 
 def entra_texto(texto):
     """
@@ -23,7 +22,6 @@ def entra_texto(texto):
     texto_sin_puntuacion_split = texto_sin_puntuacion.split()
 
     return texto_en_minusculas, texto_sin_puntuacion_split
-
 
 def analisis_palabras(texto_sin_puntuacion_split):
     """
@@ -52,7 +50,6 @@ def analisis_palabras(texto_sin_puntuacion_split):
 
     return lista_palabras, numero_de_palabras
 
-
 def cambia_a_sin_diptongos(texto):
     texto_sin_diptongos = texto. \
         replace("au", "a").replace("ai", "a").replace("ia", "a").replace("ua", "a"). \
@@ -63,7 +60,6 @@ def cambia_a_sin_diptongos(texto):
         replace("ou", "o").replace("uo", "o").replace("io", "o").replace("oi", "o"). \
         replace("óu", "ó").replace("uó", "ó").replace("ió", "ó").replace("ói", "ó")
     return (texto_sin_diptongos)
-
 
 def elimina_grafemas_consonantes(texto_sin_diptongo):
     texto = texto_sin_diptongo
@@ -78,7 +74,6 @@ def elimina_grafemas_consonantes(texto_sin_diptongo):
         replace(" y ", "  ").replace("y, ", " ").replace("z", "")
 
     return texto_sin_grafemas_consonantes, ultimo_caracter
-
 
 def transcriptor(texto_en_minusculas):
     """
@@ -217,7 +212,6 @@ def transcriptor(texto_en_minusculas):
 
     return transcripcion_1c
 
-
 def identificador_silaba_tonica(lista_palabras):
     # La lista compleja de palabras tiene [palabra, palabra sin consonantes, tónica o átona y posición sílaba tónica]
 
@@ -291,7 +285,6 @@ def identificador_silaba_tonica(lista_palabras):
 
     return lista_compleja_palabras
 
-
 def cuantificador_basico_tipos_de_palabras(lista_compleja_palabras):
     contador_monosilabos = 0
     contador_monosilabos_tonicos = 0
@@ -333,7 +326,6 @@ def cuantificador_basico_tipos_de_palabras(lista_compleja_palabras):
     return contador_monosilabos, contador_monosilabos_tonicos, contador_monosilabos_atonos, contador_bisilabos_atonos, \
         contador_agudas, contador_graves, contador_esdrujulas, contador_otros_casos, letras_finales_palabras_graves
 
-
 def contar_letras_finales(letras_finales_palabras_graves):
 
     vocales_al_final = (letras_finales_palabras_graves.count("a")) + (letras_finales_palabras_graves.count("e")) + (
@@ -349,7 +341,6 @@ def contar_letras_finales(letras_finales_palabras_graves):
     print("      Graves terminadas en otras consonantes : ", otras_consonantes_finales)
 
     return vocales_al_final, consonantes_n_s_al_final, otras_consonantes_finales
-
 
 def reporte_palabras(contador_monosilabos, contador_monosilabos_tonicos, contador_monosilabos_atonos,\
                      contador_bisilabos_atonos, contador_agudas, contador_graves, contador_esdrujulas):
@@ -373,18 +364,11 @@ def reporte_palabras(contador_monosilabos, contador_monosilabos_tonicos, contado
     print("     Número de palabras esdrújulas:", contador_esdrujulas)
 
 def diccionarios_con_valores_generales(contador_monosilabos_tonicos, contador_monosilabos_atonos,
-                                             contador_bisilabos_atonos, contador_agudas, contador_graves, contador_esdrujulas,
-                                             vocales_al_final, consonantes_n_s_al_final,otras_consonantes_finales):
+                                       contador_bisilabos_atonos, contador_agudas, contador_graves,
+                                       contador_esdrujulas, vocales_al_final, consonantes_n_s_al_final,
+                                       otras_consonantes_finales):
 
-    dict_resultados_totales = {"Monosilabos tónicos": contador_monosilabos_tonicos,
-                               "Monosílabos átonos": contador_monosilabos_atonos,
-                               "Bisílabos átonos": contador_bisilabos_atonos,
-                               "Palabras agudas": contador_agudas,
-                               "Palabras graves": contador_graves,
-                               "Palabras esdrújulas": contador_esdrujulas}
-
-    dict_finales_palabras_graves = {"Vocales N o S": vocales_al_final + consonantes_n_s_al_final,
-                                    "Otras consonantes": otras_consonantes_finales}
+# No crea diccionarios sino que crea dos objetos que se pueden coordinar con .pd
 
     categoria_letras_finales = ["Vocales N o S", "Otras consonantes"]
     valores_letras_finales = [vocales_al_final + consonantes_n_s_al_final, otras_consonantes_finales]
@@ -395,25 +379,29 @@ def diccionarios_con_valores_generales(contador_monosilabos_tonicos, contador_mo
                contador_graves, contador_esdrujulas]
     return (categorias, valores, categoria_letras_finales, valores_letras_finales)
 
-
-
 def graficos_para_ortografia_leyes_generales(categorias, valores, categoria_letras_finales, valores_letras_finales):
 
     df = pd.DataFrame(dict(
         grupo1=categorias,
         grupo2=valores
     ))
-    fig = px.bar(df, x='grupo1', y='grupo2')
+    fig = px.bar(df, x='grupo1', y='grupo2', color = 'grupo1', labels = {'grupo1': 'Categoría de palabras',
+                                                                         'grupo2': 'Número de ocurrencias'})
     fig.show()
+
+
+    fig = px.pie(df, values = 'grupo2', names = 'grupo1', title = "Distribución de palabras por tipo")
+    fig.show()
+
 
 
     df2 = pd.DataFrame(dict(
         categ = categoria_letras_finales,
         valor = valores_letras_finales
     ))
-    fig = px.bar(df2, x='categ', y='valor')
+    fig = px.bar(df2, x='categ', y='valor', color = 'categ', labels = {'categ': 'Letras finales',
+                                                                       'valor': 'Número de ocurrencias'})
     fig.show()
-
 
 def graficos_resultados_cuenta_tipos_palabras(contador_monosilabos, contador_monosilabos_tonicos,
                                               contador_monosilabos_atonos, contador_bisilabos_atonos,
@@ -428,13 +416,14 @@ def graficos_resultados_cuenta_tipos_palabras(contador_monosilabos, contador_mon
         tipos = categoria_de_palabras,
         valores = ene_por_categ_de_palabras
     ))
-    fig = px.bar(df3, x = 'tipos', y = 'valores')
+    fig = px.bar(df3, x = 'tipos', y = 'valores', color = 'tipos', labels = {'tipos': 'Categoría de las palabras',
+                                                                             'valores': 'Número de ocurrencias'})
     fig.show()
 
 
-    # monosílabos
+    # monosílabos y bisílabos átonos
 
-    monos = ["Tónicos", "Átonos", "Bisílabos átonos"]
+    monos = ["Monosílabos tónicos", "Monosílabos átonos", "Bisílabos átonos"]
     val_mono = [contador_monosilabos_tonicos, contador_monosilabos_atonos, contador_bisilabos_atonos]
 
     df4 = pd.DataFrame(dict(
@@ -442,6 +431,9 @@ def graficos_resultados_cuenta_tipos_palabras(contador_monosilabos, contador_mon
         valtip = val_mono
     ))
     fig = px.bar(df4, x = 'tip', y = 'valtip', title = "Palabras menores", labels = {'tip': "Tipos de palabras",
-                                                                                     'valtip': "Número de ocurrencias"})
+                                                                                     'valtip': "Número de ocurrencias"},
+                 color = 'tip')
+
     fig.show()
+
 

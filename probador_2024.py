@@ -22,14 +22,14 @@ contador_monosilabos, contador_monosilabos_tonicos, contador_monosilabos_atonos,
 fun.reporte_palabras(contador_monosilabos, contador_monosilabos_tonicos, contador_monosilabos_atonos,\
                      contador_bisilabos_atonos, contador_agudas, contador_graves, contador_esdrujulas)
 
-vocales_al_final, consonantes_n_s_al_final, otras_consonantes_finales = fun.contar_letras_finales(letras_finales_palabras_graves)
+vocales_al_final, consonantes_n_s_al_final, otras_consonantes_finales = (
+    fun.contar_letras_finales(letras_finales_palabras_graves))
 
-
-categorias, valores, categoria_letras_finales, valores_letras_finales = fun.diccionarios_con_valores_generales(contador_monosilabos_tonicos, contador_monosilabos_atonos,
-                                             contador_bisilabos_atonos, contador_agudas, contador_graves, contador_esdrujulas,
-                                             vocales_al_final, consonantes_n_s_al_final,otras_consonantes_finales)
-
-
+categorias, valores, categoria_letras_finales, valores_letras_finales = \
+    (fun.diccionarios_con_valores_generales(contador_monosilabos_tonicos, contador_monosilabos_atonos,
+                                            contador_bisilabos_atonos, contador_agudas, contador_graves,
+                                            contador_esdrujulas,vocales_al_final, consonantes_n_s_al_final,
+                                            otras_consonantes_finales))
 
 fun.graficos_para_ortografia_leyes_generales(categorias, valores, categoria_letras_finales, valores_letras_finales)
 
