@@ -12,7 +12,7 @@ def entra_texto(texto):
         Esto último servirá para contar las palabras
     """
     # para introducir el texto, la línea siguiente:
-    # texto = input("Texto:   ")
+
 
     texto_en_minusculas = texto.lower()
 
@@ -295,7 +295,16 @@ def cuantificador_basico_tipos_de_palabras(lista_compleja_palabras):
     contador_esdrujulas = 0
     contador_otros_casos = 0
 
+    contador_ene_sil_2 = 0
+    contador_ene_sil_3 = 0
+    contador_ene_sil_4 = 0
+    contador_ene_sil_5 = 0
+    contador_ene_sil_plus_5 = 0
+
+# cambiar nombre
     letras_finales_palabras_graves = []
+    vocal_final_palabras_graves = []
+    ene_silabas_palabras_graves = []
 
     for item_complejo in lista_compleja_palabras:
         ene_silabas_del_item = item_complejo[1]
@@ -317,30 +326,48 @@ def cuantificador_basico_tipos_de_palabras(lista_compleja_palabras):
             contador_agudas = contador_agudas + 1
         elif posicion_del_acento == '-2':
             contador_graves = contador_graves + 1
-            letras_finales_palabras_graves.append(letra_final_del_item)
+            letras_finales_palabras_graves.append([letra_final_del_item,ene_silabas_del_item])
+            vocal_final_palabras_graves.append(letra_final_del_item)
+            ene_silabas_palabras_graves.append(ene_silabas_del_item)
+            if ene_silabas_del_item == 2:
+                contador_ene_sil_2 = contador_ene_sil_2 + 1
+            elif ene_silabas_del_item == 3:
+                contador_ene_sil_3 = contador_ene_sil_3 + 1
+            elif ene_silabas_del_item == 4:
+                contador_ene_sil_4 = contador_ene_sil_4 + 1
+            elif ene_silabas_del_item == 5:
+               contador_ene_sil_4 = contador_ene_sil_5 + 1
+            elif contador_ene_sil_plus_5 > 5:
+                contador_ene_sil_plus_5 = contador_ene_sil_plus_5 + 1
+
         elif posicion_del_acento == '-3':
             contador_esdrujulas = contador_esdrujulas + 1
         else:
             contador_otros_casos = contador_otros_casos + 1
 
-    return contador_monosilabos, contador_monosilabos_tonicos, contador_monosilabos_atonos, contador_bisilabos_atonos, \
-        contador_agudas, contador_graves, contador_esdrujulas, contador_otros_casos, letras_finales_palabras_graves
+    return (contador_monosilabos, contador_monosilabos_tonicos, contador_monosilabos_atonos, contador_bisilabos_atonos, \
+        contador_agudas, contador_graves, contador_esdrujulas, contador_otros_casos, letras_finales_palabras_graves,
+            vocal_final_palabras_graves, ene_silabas_palabras_graves, contador_ene_sil_2, contador_ene_sil_3,
+            contador_ene_sil_4, contador_ene_sil_5, contador_ene_sil_plus_5)
 
 def contar_letras_finales(letras_finales_palabras_graves):
 
-    vocales_al_final = (letras_finales_palabras_graves.count("a")) + (letras_finales_palabras_graves.count("e")) + (
-        letras_finales_palabras_graves.count("i")) + (letras_finales_palabras_graves.count("o")) + (
-                           letras_finales_palabras_graves.count("u"))
+# ahora, Letras finales tiene dos subelementos
+# corregir
+    contador_n_s_vocal = 0
+    contador_otras_consonantes = 0
 
-    consonantes_n_s_al_final = (letras_finales_palabras_graves.count("n")) + (letras_finales_palabras_graves.count("s"))
-    otras_consonantes_finales =  (len(letras_finales_palabras_graves)) - (vocales_al_final + consonantes_n_s_al_final)
+    for iletras in letras_finales_palabras_graves:
+        if iletras[0] == "a" or iletras[0] == "e" or iletras[0] == "i" or iletras[0] == "o" or iletras[0] == "u" or iletras[0] == "n" or iletras[0] == "s":
+            contador_n_s_vocal = contador_n_s_vocal + 1
+        else:
+            contador_otras_consonantes = contador_otras_consonantes  + 1
 
-    print("Letras finales en las palabras graves:")
-    print("      Graves terminadas en vocal: ", vocales_al_final)
-    print("      Graves terminadas en n o s: ", consonantes_n_s_al_final)
-    print("      Graves terminadas en otras consonantes : ", otras_consonantes_finales)
+    print(contador_n_s_vocal, contador_otras_consonantes)
 
-    return vocales_al_final, consonantes_n_s_al_final, otras_consonantes_finales
+    return contador_n_s_vocal, contador_otras_consonantes
+
+
 
 def reporte_palabras(contador_monosilabos, contador_monosilabos_tonicos, contador_monosilabos_atonos,\
                      contador_bisilabos_atonos, contador_agudas, contador_graves, contador_esdrujulas):
@@ -363,30 +390,29 @@ def reporte_palabras(contador_monosilabos, contador_monosilabos_tonicos, contado
     print("     Número de palabras graves:", contador_graves)
     print("     Número de palabras esdrújulas:", contador_esdrujulas)
 
-def diccionarios_con_valores_generales(contador_monosilabos_tonicos, contador_monosilabos_atonos,
-                                       contador_bisilabos_atonos, contador_agudas, contador_graves,
-                                       contador_esdrujulas, vocales_al_final, consonantes_n_s_al_final,
-                                       otras_consonantes_finales):
-
-# No crea diccionarios sino que crea dos objetos que se pueden coordinar con .pd
-
-    categoria_letras_finales = ["Vocales N o S", "Otras consonantes"]
-    valores_letras_finales = [vocales_al_final + consonantes_n_s_al_final, otras_consonantes_finales]
 
     categorias = ["Monosilabos tónicos", "Monosílabos átonos", "Bisílabos átonos","Palabras agudas","Palabras graves",
                   "Palabras esdrújulas" ]
     valores = [contador_monosilabos_tonicos, contador_monosilabos_atonos, contador_bisilabos_atonos, contador_agudas,
                contador_graves, contador_esdrujulas]
-    return (categorias, valores, categoria_letras_finales, valores_letras_finales)
 
-def graficos_para_ortografia_leyes_generales(categorias, valores, categoria_letras_finales, valores_letras_finales):
+    return categorias, valores
+
+
+
+def graficos_para_ortografia_leyes_generales(categorias, valores, contador_n_s_vocal, contador_otras_consonantes):
+
+    cat_letras_finales = ["N S o vocal", "Otras consonantes"]
+    val_letras_finales = [contador_n_s_vocal, contador_otras_consonantes]
+
 
     df = pd.DataFrame(dict(
         grupo1=categorias,
         grupo2=valores
     ))
     fig = px.bar(df, x='grupo1', y='grupo2', color = 'grupo1', labels = {'grupo1': 'Categoría de palabras',
-                                                                         'grupo2': 'Número de ocurrencias'})
+                                                                         'grupo2': 'Número de ocurrencias'},
+                 title = "Todos los tipos posibles")
     fig.show()
 
 
@@ -396,17 +422,19 @@ def graficos_para_ortografia_leyes_generales(categorias, valores, categoria_letr
 
 
     df2 = pd.DataFrame(dict(
-        categ = categoria_letras_finales,
-        valor = valores_letras_finales
+
+        categ = cat_letras_finales,
+        valor = val_letras_finales
     ))
     fig = px.bar(df2, x='categ', y='valor', color = 'categ', labels = {'categ': 'Letras finales',
-                                                                       'valor': 'Número de ocurrencias'})
+                                                                       'valor': 'Número de ocurrencias'}, title = "Letras finales")
     fig.show()
 
 def graficos_resultados_cuenta_tipos_palabras(contador_monosilabos, contador_monosilabos_tonicos,
                                               contador_monosilabos_atonos, contador_bisilabos_atonos,
                                               contador_agudas, contador_graves, contador_esdrujulas,
-                                              contador_otros_casos, letras_finales_palabras_graves):
+                                              contador_otros_casos, letras_finales_palabras_graves,
+                                              vocal_final_palabras_graves,  ene_silabas_palabras_graves):
 
     categoria_de_palabras = ["Monosílabos", "Bisílabos átonos", "Agudas", "Graves", "Esdrújulas"]
     ene_por_categ_de_palabras = [contador_monosilabos, contador_bisilabos_atonos, contador_agudas, contador_graves,
@@ -433,7 +461,20 @@ def graficos_resultados_cuenta_tipos_palabras(contador_monosilabos, contador_mon
     fig = px.bar(df4, x = 'tip', y = 'valtip', title = "Palabras menores", labels = {'tip': "Tipos de palabras",
                                                                                      'valtip': "Número de ocurrencias"},
                  color = 'tip')
-
     fig.show()
 
+
+def graficar_data_palabras_graves(contador_ene_sil_2, contador_ene_sil_3, contador_ene_sil_4, contador_ene_sil_5,
+                                  contador_ene_sil_plus_5):
+
+    ene_casos = [contador_ene_sil_2, contador_ene_sil_3, contador_ene_sil_4, contador_ene_sil_5, contador_ene_sil_plus_5]
+    ene_de_sil = ["2", "3", "4", "5", "6 o más"]
+
+    df5 = pd.DataFrame(dict(
+        ocurrencias = ene_casos,
+        ene_sil = ene_de_sil
+    ))
+    fig = px.bar(df5, x='ene_sil', y='ocurrencias', title="Ocurrencias por número de sílaba", labels={'ene_sil': "Nº de sílabas",
+                                                                             'ocurrencias': "Ocurrencias"})
+    fig.show()
 
